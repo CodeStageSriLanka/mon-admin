@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "srinews-3002b": {
+      "hosting": {
+        "uena": [
+          "srinews-3002b"
+        ]
+      }
+    }
+  }
+}

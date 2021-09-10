@@ -1,0 +1,197 @@
+<div class="content-body">
+  <!-- row -->
+  <div class="container-fluid">
+
+    <div *ngIf='this.isAddNews==false' >
+
+      <div class="col-lg-12">
+        <div class="row page-titles mx-0">
+          <div class="col-sm-6 p-md-0">
+              <div class="welcome-text">
+                <h3>Leads Table</h3>
+              </div>
+          </div>
+          <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+              <ol class="breadcrumb">
+                  <li class="breadcrumb-item"> <button type="button" (click)="clickAdd()" class="btn btn-rounded btn-primary"><span
+                    class="btn-icon-left text-primary"><i class="fa fa-plus"></i>
+                    </span>Add Lead</button></li>
+              </ol>
+          </div>
+        </div>
+      </div>
+
+
+        <div class="col-lg-12">
+          <div class="card">
+              <div class="card-body">
+                <div class="body table-responsive">
+                  <mat-form-field class="col-xl-12" appearance="outline">
+                    <mat-label>Search</mat-label>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ABC">
+                  </mat-form-field>
+                  <table mat-table [dataSource]="dataSource01" class="w-100">
+
+
+
+                    <ng-container matColumnDef="client">
+                      <th mat-header-cell *matHeaderCellDef style="font-size: 16px;"> Lead Name</th>
+                      <td mat-cell *matCellDef="let element"> {{element.client}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="service">
+                      <th mat-header-cell *matHeaderCellDef style="font-size: 16px;"> Lead Type</th>
+                      <td mat-cell *matCellDef="let element"> {{element.service}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="contact">
+                      <th mat-header-cell *matHeaderCellDef style="font-size: 16px;"> Contact</th>
+                      <td mat-cell *matCellDef="let element"> {{element.contact}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                      <th mat-header-cell *matHeaderCellDef style="font-size: 16px;"> Status</th>
+                      <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="notes">
+                      <th mat-header-cell *matHeaderCellDef style="font-size: 16px;"> notes</th>
+                      <td mat-cell *matCellDef="let element"> {{element.notes}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="date">
+                      <th mat-header-cell *matHeaderCellDef style="font-size: 16px;"> Date</th>
+                      <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="options">
+                      <th mat-header-cell *matHeaderCellDef style="font-size: 16px;"> options </th>
+                      <td mat-cell *matCellDef="let element">
+                        <button mat-icon-button color="basic" aria-label="" (click)="getOneItem(element._id)">
+                          <mat-icon>create</mat-icon>
+                        </button>
+                      <!--  <button mat-icon-button color="warn" aria-label=""  (click)="deleteLead(element._id)">
+                          <mat-icon>delete</mat-icon>
+                        </button> --> </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  </table>
+                  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                </div>
+              </div>
+          </div>
+      </div>
+    </div>
+
+    <div *ngIf='this.isAddNews==true'>
+
+      <div class="card" >
+          <div class="card-header"  >
+            <h4 class="card-title" *ngIf='this.isEdit==false'>Add Lead</h4>
+            <h4 class="card-title" *ngIf='this.isEdit==true'>Update Lead</h4>
+          </div>
+
+          <div class="card-body">
+            <div class="form-validation">
+              <div class="row">
+                <div class="col-xl-8">
+
+                        <div class="form-group row">
+                          <label class="col-lg-4 col-form-label" >Lead Name
+                            <span class="text-danger">*</span>
+                          </label>
+                          <div class="col-lg-8">
+                            <input type="text" class="form-control" *ngIf='this.isEdit==false' [(ngModel)]="this.LeadName" placeholder="Enter a Title..">
+                            <input type="text" class="form-control" *ngIf='this.isEdit==true' disabled [(ngModel)]="this.LeadName" placeholder="Enter a Title..">
+                          </div>
+                        </div>
+
+                        <div class="form-group row">
+                          <label class="col-lg-4 col-form-label" >Lead Type
+                            <span class="text-danger">*</span>
+                          </label>
+                          <div class="col-lg-8">
+                            <select *ngIf='this.isEdit==false' class=" form-control" >
+                              <option selected>Select Lead Type</option>
+                              <option *ngFor="let catnames of this.LoanList" (click)="Select(catnames.docid,catnames.name)"  value="{{catnames.docid}}">{{catnames.name}}</option>
+                            </select>
+                            <input type="text" class="form-control" *ngIf='this.isEdit==true' [(ngModel)]="this.category" disabled placeholder="Enter a Title..">
+                          </div>
+                        </div>
+
+                        <div class="form-group row">
+                          <label class="col-lg-4 col-form-label" >Contact
+                            <span class="text-danger">*</span>
+                          </label>
+                          <div class="col-lg-8">
+                            <input type="number" class="form-control" *ngIf='this.isEdit==false'  [(ngModel)]="this.contact" placeholder="Enter a Title..">
+                            <input type="number" class="form-control" *ngIf='this.isEdit==true' disabled [(ngModel)]="this.contact" placeholder="Enter a Title..">
+                          </div>
+                        </div>
+
+                        <div class="form-group row">
+                          <label class="col-lg-4 col-form-label" >Amount
+                            <span class="text-danger">*</span>
+                          </label>
+                          <div class="col-lg-8">
+                            <input type="number" class="form-control" *ngIf='this.isEdit==false' [(ngModel)]="this.amount" placeholder="Enter Amount..">
+                            <input type="number" class="form-control" *ngIf='this.isEdit==true' disabled [(ngModel)]="this.amount" placeholder="Enter Amount..">
+                          </div>
+                        </div>
+
+                        <div class="form-group row">
+                          <label class="col-lg-4 col-form-label" >Note
+                            <span class="text-danger">*</span>
+                          </label>
+                          <div class="col-lg-8">
+                            <input type="text" class="form-control" *ngIf='this.isEdit==false' [(ngModel)]="this.note" placeholder="Enter Note..">
+                            <input type="text" class="form-control" *ngIf='this.isEdit==true' disabled [(ngModel)]="this.note" placeholder="Enter Note..">
+                          </div>
+                        </div>
+
+                        <div class="form-group row">
+                          <label class="col-lg-4 col-form-label" >Status
+                            <span class="text-danger">*</span>
+                          </label>
+                          <div class="col-lg-8">
+                            <select class=" form-control"   [(ngModel)]="this.Status">
+                              <option value="OPEN">Open</option>
+                              <option value="ACTIVE">Active</option>
+                              <option value="CONVERTE">Converte</option>
+                              <option value="FAILED">Failed</option>
+                              <option value="CLOSED">Closed</option>
+                            </select>
+                          </div>
+                        </div>
+
+
+                        <div class="form-group row">
+                          <div class="col-lg-8 ml-auto" *ngIf='this.isAddNews==true && this.isEdit==false'>
+                            <button type="submit" class="btn btn-primary mr-2" (click)="AddformSubmit()"  >Submit</button>
+                            <button type="submit" class="btn btn-info" (click)="Cancel()" >Cancel</button>
+                          </div>
+                          <div class="col-lg-8 ml-auto" *ngIf='this.isEdit==true'>
+                            <button type="submit" class="btn btn-primary mr-2" (click)="update()">Update</button>
+                            <button type="submit" class="btn btn-info" (click)="Cancel()" >Cancel</button>
+                          </div>
+                        </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+

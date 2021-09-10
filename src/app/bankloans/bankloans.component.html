@@ -1,0 +1,190 @@
+<style>
+  .Tables, .Tabless {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+
+
+  .Tabless tr:nth-child(even) {
+    background-color: #ffffff;
+  }
+  </style>
+
+<div class="content-body">
+  <!-- row -->
+  <div class="container-fluid">
+    <div *ngIf='this.isAddNews==false'>
+
+      <div class="col-lg-12">
+        <div class="row page-titles mx-0">
+          <div class="col-sm-6 p-md-0">
+              <div class="welcome-text">
+                <h3>Bank Loans Table</h3>
+              </div>
+          </div>
+          <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
+              <ol class="breadcrumb">
+                  <li class="breadcrumb-item"> <button type="button" (click)="clickAdd()" class="btn btn-rounded btn-primary"><span
+                    class="btn-icon-left text-primary"><i class="fa fa-plus"></i>
+                    </span>Set Loans </button></li>
+              </ol>
+          </div>
+        </div>
+      </div>
+
+
+        <div class="col-lg-12">
+          <div class="card">
+              <div class="card-body">
+                <div class="body table-responsive">
+                  <table class="Tabless">
+                    <tr style=" border: 1px solid #dddddd;text-align: left;padding: 8px;">
+                      <th style=" border: 1px solid #dddddd;text-align: left;padding: 8px;">Loan Name</th>
+                      <th style=" border: 1px solid #dddddd;text-align: left;padding: 8px;">Loan Details</th>
+                    </tr>
+                    <tr *ngFor="let banks of LoanDetails">
+                      <td style=" border: 1px solid #dddddd;text-align: left;padding: 8px;">{{banks.LoanName}}</td>
+                      <td style=" border: 1px solid #dddddd;text-align: left;padding: 8px;">
+                       <table class="Tables">
+                        <tr>
+                          <th>Bank Name</th>
+                          <th>Interest</th>
+                        </tr>
+                         <tr *ngFor="let interest of banks.Interests">
+                          <td style=" border: 1px solid #dddddd;text-align: left;padding: 8px;">{{interest.bankName}}</td>
+                          <td style=" border: 1px solid #dddddd;text-align: left;padding: 8px;">{{interest.interest}}</td>
+                        </tr>
+                       </table>
+                      </td>
+                      <td style=" border: 1px solid #dddddd;text-align: center;padding: 8px;">
+                        <button type="button" class="btn btn-primary" aria-label="" (click)="getoneitem(banks.LoanId)">
+                          Edit
+                         </button>
+                         <button type="button" class="btn btn-danger ml-2" aria-label="" (click)="deleteBankLoan(banks.LoanId)">
+                          Delete
+                         </button>
+                      </td>
+                    </tr>
+                  </table><br>
+                </div>
+              </div>
+          </div>
+      </div>
+
+    </div>
+
+    <div *ngIf='this.isAddNews==true'>
+
+      <div class="card" >
+          <div class="card-header"  >
+            <h4 class="card-title" *ngIf='this.isEdit==false'>Add Bank Loan</h4>
+            <h4 class="card-title" *ngIf='this.isEdit==true'>Update Bank Loan</h4>
+          </div>
+
+          <div class="card-body">
+            <div class="form-validation">
+              <div class="row">
+                <div class="col-xl-12">
+
+                        <div class="form-group row" >
+                          <label class="col-lg-4 col-form-label" >Loan Category
+                            <span class="text-danger">*</span>
+                          </label>
+                          <div class="col-lg-6">
+                            <select  class=" form-control" [(ngModel)]="this.LoanName" [disabled]="this.isEdit==true">
+                              <option *ngFor="let catnames of this.LoanList" (click)="Select(catnames.docid,catnames.name)"  value="{{catnames.docid}}">{{catnames.name}}</option>
+                            </select>
+                          </div>
+                        </div>
+
+                       <div class="form-group row" *ngIf='this.isEdit==true'>
+                          <label class="col-lg-4 col-form-label" >Add Bank
+                            <span class="text-danger">*</span>
+                          </label>
+                          <div class="col-lg-6">
+                            <select  class=" form-control" >
+                              <option selected>Please Select</option>
+                              <option *ngFor="let banknames of this.bankList" (click)="Selectbank(banknames.docid,banknames.title)"  value="{{banknames.docid}}">{{banknames.title}}</option>
+                            </select>
+                          </div>
+                          <button type="submit" class="btn btn-info" (click)="addBank()"  >add </button>
+                        </div>
+
+
+
+                        <table class="Tables">
+                          <tr style=" border: 1px solid #dddddd;text-align: left;padding: 8px;">
+                            <th style=" border: 1px solid #dddddd;text-align: left;padding: 8px;">Bank Name</th>
+                            <th style=" border: 1px solid #dddddd;text-align: left;padding: 8px;">Interest (%p.a)</th>
+
+                          </tr>
+                          <tr *ngFor="let banks of Banks;let in = index">
+                            <td>{{banks.bankName}}</td>
+                            <td><input type="number" class="form-control" name="interest-{{in}}" [(ngModel)]="banks.interest"></td>
+
+                          </tr>
+                        </table><br>
+
+                    <!--   <table mat-table [dataSource]="dataSource02" class="w-100">
+                           Title Column
+                          <ng-container matColumnDef="Loan" >
+                            <th mat-header-cell *matHeaderCellDef style="font-size: 16px;"> Bank Name </th>
+                            <td mat-cell *matCellDef="let element" > {{element.title}} </td>
+                          </ng-container>
+                          <ng-container matColumnDef="Interest" >
+                            <th mat-header-cell *matHeaderCellDef style="font-size: 16px;"> Interest (% p.a)</th>
+                            <td mat-cell *matCellDef="let element">
+                              <ng-container *ngIf="element.position!==editRowId">
+                                <input matInput style="background-color:azure;" name="interest" [(ngModel)]="element.interest">
+                              </ng-container>
+
+                              </td>
+                          </ng-container>
+                         - edit Column
+                          <ng-container matColumnDef="options" >
+                            <th mat-header-cell *matHeaderCellDef style="font-size: 16px;"> options </th>
+                            <td mat-cell *matCellDef="let element">
+                              <button type="button" class="btn btn-primary btn-xxs" aria-label="" (click)="Save(element.id)">
+                               save
+                              </button>
+                            </td>
+                          </ng-container>
+
+                          <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                          <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+                        </table><br> -->
+
+                        <div class="form-group row">
+                          <div class="col-lg-8 ml-auto" *ngIf='this.isAddNews==true && this.isEdit==false'>
+                            <button type="submit" class="btn btn-primary ml-1" (click)="Save()" >Save</button>
+                            <button type="submit" class="btn btn-info ml-1" (click)="Cancel()" >Cancel</button>
+                            <button type="submit" class="btn btn-primary ml-1" (click)="clear()" >Reset</button>
+                          </div>
+                          <div class="col-lg-8 ml-auto" *ngIf='this.isEdit==true'>
+                            <button type="submit" class="btn btn-primary mr-2" (click)="update()">Update</button>
+                            <button type="submit" class="btn btn-info" (click)="Cancel()" >Cancel</button>
+                          </div>
+                        </div><br>
+                        <pre hidden>
+                          {{this.Banks | json}}
+                        </pre>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+

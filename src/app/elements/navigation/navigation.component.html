@@ -1,0 +1,58 @@
+<div class="deznav">
+    <div class="deznav-scroll" [perfectScrollbar]>
+        <ul class="metismenu" id="menu" metis-menu>
+            <li>
+                <a  href="javascript:void()" [routerLink]="['/admin/index']" aria-expanded="false">
+                    <i class="flaticon-025-dashboard"></i>
+                    <span class="nav-text" >Dashboard</span>
+                </a>
+            </li>
+            <li>
+              <a  href="javascript:void()" [routerLink]="['/admin/bankloans']"  aria-expanded="false">
+                  <i class="flaticon-068-plus"></i>
+                  <span class="nav-text">Bank Loans</span>
+              </a>
+            </li>
+            <li>
+              <a  href="javascript:void()" [routerLink]="['/admin/banks']"  aria-expanded="false">
+                  <i class="flaticon-087-stop"></i>
+                  <span class="nav-text">Banks</span>
+              </a>
+            </li>
+            <li>
+              <a  href="javascript:void()" [routerLink]="['/admin/loans']"  aria-expanded="false">
+                  <i class="flaticon-050-info"></i>
+                  <span class="nav-text">Loans</span>
+              </a>
+            </li>
+
+            <li>
+                <a  href="javascript:void()" [routerLink]="['/admin/users']"  aria-expanded="false">
+                    <i class="flaticon-041-graph"></i>
+                    <span class="nav-text">Leads</span>
+                </a>
+
+            </li>
+            <li>
+              <a  href="javascript:void()" [routerLink]="['/admin/banner']"  aria-expanded="false">
+                  <i class="flaticon-022-copy"></i>
+                  <span class="nav-text">Banners</span>
+              </a>
+            </li>
+            <li>
+              <a  href="javascript:void()" [routerLink]="['/admin/access']"  aria-expanded="false">
+                  <i class="flaticon-012-checkmark"></i>
+                  <span class="nav-text">Admin Users</span>
+              </a>
+            </li>
+
+
+        </ul>
+
+
+        <div class="copyright">
+            <p><strong>Mon.lk  Admin  Dashboard</strong> © 2021 All Rights Reserved</p>
+            <p class="fs-12">Made with <span [ngClass]="{'': toggleIcon, 'heart-blast': !toggleIcon}" class="heart" (click)="toggleLoveIcon()"></span> by Codestage</p>
+        </div>
+    </div>
+</div>
